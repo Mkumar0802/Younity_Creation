@@ -9,11 +9,17 @@
 # Turn on the rewrite engine
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    
+    # If your site is in a subdirectory (e.g., /gleam), uncomment and adjust:
+    # RewriteBase /gleam/
 </IfModule>
 
 # ------------------------------------------------------------------------------
 # | Directory and File Handling                                                |
 # ------------------------------------------------------------------------------
+
+# Set default index file
+DirectoryIndex index.html
 
 # Disable directory browsing
 Options -Indexes
@@ -53,10 +59,11 @@ Options -Indexes
 # | Custom Error Pages                                                         |
 # ------------------------------------------------------------------------------
 
-# You can create these files in your root directory
-# ErrorDocument 403 /403.html
-# ErrorDocument 404 /404.html
-# ErrorDocument 500 /500.html
+# Define custom error pages
+# IMPORTANT: If your site is in a subdirectory (e.g. /gleam), 
+# you must include it in the path: /gleam/404.html
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
 
 # ------------------------------------------------------------------------------
 # | Performance: Caching and Compression                                       |
@@ -109,10 +116,7 @@ Options -Indexes
 # ------------------------------------------------------------------------------
 
 <IfModule mod_headers.c>
-    # Prevent MIME-sniffing
     Header set X-Content-Type-Options "nosniff"
-    # Prevent clickjacking
     Header set X-Frame-Options "SAMEORIGIN"
-    # Enable XSS protection
     Header set X-XSS-Protection "1; mode=block"
 </IfModule>
